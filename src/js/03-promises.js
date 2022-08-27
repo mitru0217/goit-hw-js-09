@@ -1,8 +1,8 @@
 let formData = {};
-const form = document.querySelector(".form");
-console.log(form);
+const form = document.querySelector(".form[number]");
+
 const submitBtn = document.querySelector("button");
-console.log(submitBtn);
+
 form.addEventListener("input", onInputChange);
 
 // submitBtn.addEventListener("submit", createPromise);
@@ -13,19 +13,19 @@ function onInputChange (e) {
 };
 
 // function createPromise(position, delay) {
-// return new Promise = (resolve, reject) => {
+// return new Promise =((resolve, reject) => {
 //   const shouldResolve = Math.random() > 0.3;
 //   setTimeout( () => {
 //     if (shouldResolve) {
 //       // Fulfill
-//       resolve("✅ Fulfilled promise ${position} in ${delay}ms");
+//       resolve({ position, delay });
 //     }
 //     else {
 //       // Reject
-//       reject("❌ Rejected promise ${position} in ${delay}ms");
+//       reject({ position, delay });
 //     };
 //   },delay);
-// };
+// });
 // };
 // createPromise(2, 1500)
 //   .then(({ position, delay }) => {
