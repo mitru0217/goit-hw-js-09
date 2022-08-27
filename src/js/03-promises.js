@@ -5,7 +5,7 @@ const submitBtn = document.querySelector("button");
 console.log(submitBtn);
 form.addEventListener("input", onInputChange);
 
-submitBtn.addEventListener("submit", createPromise);
+// submitBtn.addEventListener("submit", createPromise);
 
 function onInputChange (e) {
     formData[e.target.name] = e.target.value;
