@@ -1,7 +1,6 @@
 
-const r = 23;
-console.log (r);
-
+const form = document.querySelector(".form");
+console.log(form);
 
 
 
