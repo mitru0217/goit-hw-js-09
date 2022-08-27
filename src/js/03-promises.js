@@ -33,10 +33,10 @@ for(let i = 0; i <= formData.amount; i++ ) {
     const promise = createPromise(i, formData.delay);
     promise
     .then(({ position, delay }) => {
-      console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
     })
     .catch(({ position, delay }) => {
-      console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+      Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
     });
     formData.delay += formData.step;
 }
