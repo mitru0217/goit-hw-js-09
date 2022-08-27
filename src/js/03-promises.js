@@ -1,3 +1,5 @@
+import { Notify } from 'notiflix/build/notiflix-notify-aio'
+
 let formData = {};
 const form = document.querySelector(".form");
 
