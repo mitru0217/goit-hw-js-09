@@ -1,39 +1,44 @@
 let formData = {};
-const form = document.querySelector(".form[number]");
+const form = document.querySelector(".form");
 
 const submitBtn = document.querySelector("button");
 
 form.addEventListener("input", onInputChange);
 
-// submitBtn.addEventListener("submit", createPromise);
+submitBtn.addEventListener("submit", createPromise);
 
 function onInputChange (e) {
     formData[e.target.name] = e.target.value;
     console.log(formData);
 };
 
-// function createPromise(position, delay) {
-// return new Promise =((resolve, reject) => {
-//   const shouldResolve = Math.random() > 0.3;
-//   setTimeout( () => {
-//     if (shouldResolve) {
-//       // Fulfill
-//       resolve({ position, delay });
-//     }
-//     else {
-//       // Reject
-//       reject({ position, delay });
-//     };
-//   },delay);
-// });
-// };
-// createPromise(2, 1500)
-//   .then(({ position, delay }) => {
-//     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-//   })
-//   .catch(({ position, delay }) => {
-//     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-//   });
+function createPromise(position, delay) {
+return new Promise =((resolve, reject) => {
+  const shouldResolve = Math.random() > 0.3;
+  setTimeout( () => {
+    if (shouldResolve) {
+      // Fulfill
+      resolve({ position, delay });
+    }
+    else {
+      // Reject
+      reject({ position, delay });
+    };
+  },delay);
+});
+};
+for(let i = 0; i <= formData.amount; i++ ) {
+    const promise = createPromise(i, formData.delay);
+    promise
+    .then(({ position, delay }) => {
+      console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+    })
+    .catch(({ position, delay }) => {
+      console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+    });
+    formData.delay += formData.step;
+}
+
 
 
 
