@@ -3,10 +3,14 @@ const form = document.querySelector(".form");
 console.log(form);
 const submitBtn = document.querySelector("button");
 console.log(submitBtn);
+form.addEventListener("input", onInputChange);
 
+submitBtn.addEventListener("submit", createPromise);
 
-
-
+function onInputChange (e) {
+    formData[e.target.name] = e.target.value;
+    console.log(formData);
+};
 
 // function createPromise(position, delay) {
 // return new Promise = (resolve, reject) => {
