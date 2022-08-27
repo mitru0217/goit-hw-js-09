@@ -41,7 +41,8 @@ for(let i = 0; i <= formData.amount; i++ ) {
     formData.delay += formData.step;
 }
 
-
+const t = 67;
+console.log(t);
 
 
 
