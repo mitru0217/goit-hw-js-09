@@ -1,4 +1,4 @@
-
+let formData = {};
 const form = document.querySelector(".form");
 console.log(form);
 const submitBtn = document.querySelector("button");
