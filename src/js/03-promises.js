@@ -1,4 +1,4 @@
-// import { Notify } from 'notiflix/build/notiflix-notify-aio'
+// import Notiflix from 'notiflix';
 
 let formData = {};
 const form = document.querySelector(".form");
@@ -15,7 +15,7 @@ function onInputChange (e) {
 };
 
 function createPromise(position, delay) {
-return new Promise =((resolve, reject) => {
+return new Promise ((resolve, reject) => {
   const shouldResolve = Math.random() > 0.3;
   setTimeout( () => {
     if (shouldResolve) {
@@ -41,8 +41,7 @@ for(let i = 0; i <= formData.amount; i++ ) {
     formData.delay += formData.step;
 }
 
-const t = 67;
-console.log(t);
+
 
 
 
