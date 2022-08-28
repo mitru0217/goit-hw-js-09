@@ -16,38 +16,6 @@ function createPromise(position, delay) {
 
   return promise;
 }
-
-// function validate(form){
-//   const validators = {
-//     amount : (value) => {
-//       let valid = !isNaN(value) && value > 0
-//       if(!valid){
-//         Notify.warning(`amount must be integer > 0`)
-//       }
-//       return valid
-//     }, 
-//     delay: (value) => {
-//       let valid = !isNaN(value) && value >= 0
-//       if(!valid){
-//         Notify.warning(`delay must be integer >= 0`)
-//       }
-//       return valid
-//     }, 
-//     step: (value) => {
-//       let valid = !isNaN(value) && value >= 0
-//       if(!valid){
-//         Notify.warning(`step must be integer >= 0`)
-//       }
-//       return valid
-//     }
-//   }
-//   return Object.keys(validators).reduce((acc,key) =>{
-//     let v = parseInt(form.elements[key].value,10)
-//     let valid = validators[key](v)
-//     return acc && valid
-//   }, true)
-// }
-
 function doPromises(data){
   let { form } = data
   const elems = form.elements
