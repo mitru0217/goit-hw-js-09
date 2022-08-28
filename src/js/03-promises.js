@@ -1,96 +1,96 @@
-// import Notiflix from 'notiflix';
-
-let formData = {};
-const form = document.querySelector(".form");
-
-const submitBtn = document.querySelector("button");
-
-form.addEventListener("input", onInputChange);
-
-submitBtn.addEventListener("submit", createPromise);
-
-function onInputChange (e) {
-    formData[e.target.name] = e.target.value;
-    console.log(formData);
-};
+import { Notify } from 'notiflix/build/notiflix-notify-aio'
+import "notiflix/dist/notiflix-3.2.5.min.css"
 
 function createPromise(position, delay) {
-return new Promise ((resolve, reject) => {
   const shouldResolve = Math.random() > 0.3;
-  setTimeout( () => {
-    if (shouldResolve) {
-      // Fulfill
-      resolve({ position, delay });
-    }
-    else {
-      // Reject
-      reject({ position, delay });
-    };
-  },delay);
-});
-};
-for(let i = 0; i <= formData.amount; i++ ) {
-    const promise = createPromise(i, formData.delay);
-    promise
-    .then(({ position, delay }) => {
-      console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-    })
-    .catch(({ position, delay }) => {
-      console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-    });
-    formData.delay += formData.step;
+
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve({position:position, delay:delay});
+      } else {
+        reject({position:position, delay:delay});
+      }
+    }, delay);
+  });
+
+  return promise;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// В HTML есть разметка формы, в поля которой пользователь будет вводить первую задержку в миллисекундах, шаг увеличения задержки для каждого промиса после первого и количество промисов которое необходимо создать.
-
-// <form class="form">
-//   <label>
-//     First delay (ms)
-//     <input type="number" name="delay" required />
-//   </label>
-//   <label>
-//     Delay step (ms)
-//     <input type="number" name="step" required />
-//   </label>
-//   <label>
-//     Amount
-//     <input type="number" name="amount" required />
-//   </label>
-//   <button type="submit">Create promises</button>
-// </form>
-
-// Напиши скрипт, который при сабмите формы вызывает функцию createPromise(position, delay) столько раз, сколько ввели в поле amount. При каждом вызове передай ей номер создаваемого промиса (position) и задержку учитывая введенную пользователем первую задержку (delay) и шаг (step).
-
-// function createPromise(position, delay) {
-//   const shouldResolve = Math.random() > 0.3;
-//   if (shouldResolve) {
-//     // Fulfill
-//   } else {
-//     // Reject
+// function validate(form){
+//   const validators = {
+//     amount : (value) => {
+//       let valid = !isNaN(value) && value > 0
+//       if(!valid){
+//         Notify.warning(`amount must be integer > 0`)
+//       }
+//       return valid
+//     }, 
+//     delay: (value) => {
+//       let valid = !isNaN(value) && value >= 0
+//       if(!valid){
+//         Notify.warning(`delay must be integer >= 0`)
+//       }
+//       return valid
+//     }, 
+//     step: (value) => {
+//       let valid = !isNaN(value) && value >= 0
+//       if(!valid){
+//         Notify.warning(`step must be integer >= 0`)
+//       }
+//       return valid
+//     }
 //   }
+//   return Object.keys(validators).reduce((acc,key) =>{
+//     let v = parseInt(form.elements[key].value,10)
+//     let valid = validators[key](v)
+//     return acc && valid
+//   }, true)
 // }
 
-// Дополни код функции createPromise так, чтобы она возвращала один промис, который выполянется или отклоняется через delay времени. Значением промиса должен быть объект, в котором будут свойства position и delay со значениями одноименных параметров. Используй начальный код функции для выбора того, что нужно сделать с промисом - выполнить или отклонить.
+function doPromises(data){
+  let { form } = data
+  const elems = form.elements
+  const amount = parseInt(elems['amount'].value,10)
+  const delay = parseInt(elems['delay'].value,10)
+  const step = parseInt(elems['step'].value,10)
+  let currDelay = step
+  form.setAttribute("pending","true")
+  currDelay = delay
+  const unblocking = (position) =>{
+    if(position === amount){
+      form.removeAttribute("pending")
+    }
+  }
+  for (let i = 0; i < amount; i++){
+    const promise = createPromise(i+1, currDelay)
+    promise.then((data) => {
+      const {position, delay} = data
+      Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`)
+      unblocking(position)
+    })
+    .catch((data) => {
+      const {position, delay} = data
+      Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`)
+      unblocking(position)
+    })
+    currDelay += step
+  }
+}
 
-// createPromise(2, 1500)
-//   .then(({ position, delay }) => {
-//     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-//   })
-//   .catch(({ position, delay }) => {
-//     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-//   });
+const form = document.querySelector('form.form')
+
+form.addEventListener("submit", (ev) => {
+  ev.preventDefault()
+  if(ev.currentTarget.getAttribute("pending")){
+    return
+  }
+  if(!ev.currentTarget){
+    return
+  }
+  const data = {
+    position: 1,
+    form: ev.currentTarget
+  }
+  doPromises(data)
+})
