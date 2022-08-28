@@ -1,0 +1,2 @@
+!function(){function o(o){return String(o).padStart(2,"0")}(function(){var n=Date.now();setInterval((function(){var t=function(n){var t=1e3,a=60*t,c=60*a,r=24*c,e=o(Math.floor(n/r)),s=o(Math.floor(n%r/c)),u=o(Math.floor(n%r%c/a)),f=o(Math.floor(n%r%c%a/t));return{days:e,hours:s,minutes:u,seconds:f}}(Date.now()-n),a=t.days,c=t.hours,r=t.minutes,e=t.seconds;console.log("".concat(a,":").concat(c,":").concat(r,":").concat(e))}),1e3)})()}();
+//# sourceMappingURL=02-timer.62776b22.js.map
