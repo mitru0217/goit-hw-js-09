@@ -1,2 +1,0 @@
-function t(t){return String(t).padStart(2,"0")}({start(){const o=Date.now();setInterval((()=>{const n=Date.now()-o,{days:s,hours:r,minutes:a,seconds:e}=function(o){const n=1e3,s=60*n,r=60*s,a=24*r,e=t(Math.floor(o/a)),c=t(Math.floor(o%a/r)),u=t(Math.floor(o%a%r/s)),l=t(Math.floor(o%a%r%s/n));return{days:e,hours:c,minutes:u,seconds:l}}(n);console.log(`${s}:${r}:${a}:${e}`)}),1e3)}}).start();
-//# sourceMappingURL=02-timer.ffa1cd68.js.map
