@@ -10,29 +10,27 @@ const refs = {
     minutes: document.querySelector("span[data-minutes]"),
     seconds: document.querySelector("span[data-seconds]"),
 }
-
-// refs.input.addEventListener("click", flatpickr)
-
-// const fp = flatpickr(input, {});
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    console.log(selectedDates[0]);
+  },
+};;
+const startTime = options.defaultDate;
 
 refs.button.addEventListener("click", () => {
+  let data = refs.input.value
+  console.log(data);
   timer.start();
 });
-// refs.input.addEventListener("click",  flatpickr(input, options));
 
+refs.input.addEventListener("click", () => {
 
+})
 
-
-
-const options = {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose(selectedDates) {
-      console.log(selectedDates[0]);
-    },
-  };
 
   flatpickr("input[type=text]", options)
    
@@ -43,12 +41,16 @@ start() {
 if(this.isActive) {
 return;
 }
-const startTime = Date.now();
+
+console.log(startTime);
 this.isActive = true;
 this.intervalId = setInterval(() => {
 const currentTime = Date.now();
+// console.log(currentTime);
 const deltaTime = currentTime - startTime;
+// console.log(deltaTime);
 const { days, hours, minutes, seconds } = convertMs(deltaTime);
+// console.log({ days, hours, minutes, seconds });
 updateTimer({ days, hours, minutes, seconds });
 
 // console.log(`${days}:${hours}:${minutes}:${seconds}`);
@@ -85,7 +87,10 @@ function convertMs(ms) {
   }
   
   function updateTimer ({ days, hours, minutes, seconds }) {
-refs.days.textContent = `${days}`;
+refs.days.innerText = `${days}`;
+refs.hours.innerText = `${hours}`;
+refs.minutes.innerText = `${minutes}`;
+refs.seconds.innerText = `${seconds}`;
   }
 
 
