@@ -1,6 +1,8 @@
 const flatpickr = require("flatpickr");
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import { Notify } from 'notiflix/build/notiflix-notify-aio'
+import "notiflix/dist/notiflix-3.2.5.min.css"
 
 const refs = {
     input: document.querySelector("#datetime-picker"),
@@ -9,7 +11,13 @@ const refs = {
     hours: document.querySelector("span[data-hours]"),
     minutes: document.querySelector("span[data-minutes]"),
     seconds: document.querySelector("span[data-seconds]"),
+    timer: document.querySelector(".timer"),
 }
+
+const currentTime = Date.now();
+console.log(currentTime);
+
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -17,80 +25,68 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);
+    if(selectedDates[0] <= currentTime) {
+      refs.button.setAttribute("disabled", true)
+      Notify.failure(`❌ Please choose a date in the future`)
+      return
+    }
+    refs.button.removeAttribute("disabled", true)
   },
-};;
-const startTime = options.defaultDate;
+};
+flatpickr("input[type=text]", options);
 
 refs.button.addEventListener("click", () => {
-  let data = refs.input.value
-  console.log(data);
   timer.start();
 });
-
-refs.input.addEventListener("click", () => {
-
-})
-
-
-  flatpickr("input[type=text]", options)
-   
-const timer = {
-intervalId: null,
-isActive: false,
-start() {
-if(this.isActive) {
-return;
-}
-
-console.log(startTime);
-this.isActive = true;
-this.intervalId = setInterval(() => {
-const currentTime = Date.now();
-// console.log(currentTime);
-const deltaTime = currentTime - startTime;
-// console.log(deltaTime);
-const { days, hours, minutes, seconds } = convertMs(deltaTime);
-// console.log({ days, hours, minutes, seconds });
-updateTimer({ days, hours, minutes, seconds });
-
-// console.log(`${days}:${hours}:${minutes}:${seconds}`);
-}, 1000);
-},
-stop() {
-clearInterval(this.intervalId);
-this.isActive = false;
-}
-};
-timer.start();
-
-function addLeadingZero(value) {
-    return String(value).padStart(2, "0");
-};
-
-function convertMs(ms) {
-    // Number of milliseconds per unit of time
-    const second = 1000;
-    const minute = second * 60;
-    const hour = minute * 60;
-    const day = hour * 24;
-  
-    // Remaining days
-    const days = addLeadingZero(Math.floor(ms / day));
-    // Remaining hours
-    const hours = addLeadingZero(Math.floor((ms % day) / hour));
-    // Remaining minutes
-    const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
-    // Remaining seconds
-    const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
-  
-    return { days, hours, minutes, seconds };
+class Timer {
+  constructor({onTick}) {
+    this.intervalId = null;
+    this.isActive = false;
+    this.onTick = onTick;
   }
+  start() {
+    if(this.isActive) {
+      return;
+    }
+    this.isActive = true;
+
+    this.intervalId = setInterval(() => {
+     
+      const deltaTime = options.selectedDates[0] - currentTime;
+      const ms = this.convertMs(deltaTime);
+      if(deltaTime <= 0) {
+        clearInterval(this.intervalId);
+      }
+      this.onTick(ms);
+      console.log(ms);
+    }, 1000);
+  };
   
+ convertMs(ms) {
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  const days = this.addLeadingZero(Math.floor(ms / day));
+  const hours = this.addLeadingZero(Math.floor((ms % day) / hour));
+  const minutes = this.addLeadingZero(Math.floor(((ms % day) % hour) / minute));
+  const seconds = this.addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
+
+  return { days, hours, minutes, seconds };
+}
+ addLeadingZero(value) {
+  return String(value).padStart(2, "0");
+};
+};
+
+const timer = new Timer({
+  onTick: updateTimer
+}
+);
   function updateTimer ({ days, hours, minutes, seconds }) {
 refs.days.innerText = `${days}`;
 refs.hours.innerText = `${hours}`;
 refs.minutes.innerText = `${minutes}`;
 refs.seconds.innerText = `${seconds}`;
-  }
-
-
+  };
