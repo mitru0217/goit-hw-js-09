@@ -44,7 +44,7 @@ const options = {
 flatpickr("input[type=text]", options);
 
 refs.input.addEventListener("click", () => {
-  let deadLine = refs.input.value;
+  let deadLine = Date.parse(refs.input.value);
      console.log(deadLine);
 });
 
