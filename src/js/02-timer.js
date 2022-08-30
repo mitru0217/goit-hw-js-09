@@ -24,7 +24,7 @@ const options = {
   onClose(selectedDates) {
     console.log(selectedDates[0]);
  
-    if(selectedDates[0] <= currentTime) {
+    if(selectedDates[0] <= Date.now()) {
       refs.button.setAttribute("disabled", true)
       Notify.failure(`❌ Please choose a date in the future`)
       return
@@ -40,10 +40,7 @@ flatpickr("input[type=text]", options);
 //      console.log(deadLine);
 // });
 
-
-refs.button.addEventListener("click", () => {
-  timer.start();
-});
+console.log(refs.input.value);
 
 class Timer {
   constructor({onTick}) {
@@ -95,9 +92,15 @@ const timer = new Timer({
   onTick: updateTimer
 }
 );
+
   function updateTimer ({ days, hours, minutes, seconds }) {
 refs.days.innerText = `${days}`;
 refs.hours.innerText = `${hours}`;
 refs.minutes.innerText = `${minutes}`;
 refs.seconds.innerText = `${seconds}`;
   };
+
+  refs.button.addEventListener("click", () => {
+    timer.start();
+  });
+  
