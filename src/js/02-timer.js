@@ -14,7 +14,7 @@ const refs = {
     timer: document.querySelector(".timer"),
 }
 
-const currentTime = Date.now();
+
 console.log(currentTime);
 const options = {
   enableTime: true,
@@ -52,12 +52,14 @@ class Timer {
     this.onTick = onTick;
   }
   start() {
+   
     if(this.isActive) {
       return;
     }
     this.isActive = true;
 
     this.intervalId = setInterval(() => {
+      const currentTime = Date.now();
       let deadLine = Date.parse(refs.input.value);
       console.log(deadLine);
       const deltaTime = deadLine -currentTime;
