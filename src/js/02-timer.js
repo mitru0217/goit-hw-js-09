@@ -23,7 +23,6 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
  
     if(selectedDates[0] <= Date.now()) {
       refs.button.setAttribute("disabled", true);
@@ -36,14 +35,6 @@ const options = {
 };
 
 flatpickr("input[type=text]", options);
-
-// refs.input.addEventListener("click", () => {
-//   let deadLine = Date.parse(refs.input.value);
-//      console.log(deadLine);
-// });
-
-console.log(refs.input.value);
-
 class Timer {
   constructor({onTick}) {
     this.intervalId = null;
@@ -60,11 +51,9 @@ class Timer {
     this.intervalId = setInterval(() => {
       const currentTime = Date.now();
       let deadLine = Date.parse(refs.input.value);
-      console.log(deadLine);
       const deltaTime = deadLine -currentTime;
-      console.log(deltaTime);
       const ms = this.convertMs(deltaTime);
-      if(deltaTime <= 0) {
+      if(deltaTime === 0) {
         clearInterval(this.intervalId);
       }
       this.onTick(ms);
