@@ -56,9 +56,9 @@ class Timer {
       console.log(ms);
       const times = Object.values(ms);
       console.log(times);
-      // if(ms = 00000001) {
-      //   clearInterval(this.intervalId);
-      // }
+      if(ms.seconds.value = 01) {
+        clearInterval(this.intervalId);
+      }
       this.onTick(ms);
     
     }, 1000);
