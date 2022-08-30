@@ -43,10 +43,10 @@ const options = {
 
 flatpickr("input[type=text]", options);
 
-refs.input.addEventListener("click", () => {
-  let deadLine = Date.parse(refs.input.value);
-     console.log(deadLine);
-});
+// refs.input.addEventListener("click", () => {
+//   let deadLine = Date.parse(refs.input.value);
+//      console.log(deadLine);
+// });
 
 
 refs.button.addEventListener("click", () => {
@@ -66,7 +66,7 @@ class Timer {
     this.isActive = true;
 
     this.intervalId = setInterval(() => {
-     
+      let deadLine = Date.parse(refs.input.value);
       const deltaTime = deadLine -currentTime;
       console.log(deltaTime);
       const ms = this.convertMs(deltaTime);
