@@ -54,12 +54,13 @@ class Timer {
       const deltaTime = deadLine -currentTime;
       const ms = this.convertMs(deltaTime);
       console.log(ms);
-      console.log(deltaTime);
+      const times = Object.values(ms);
+      console.log(times);
       // if(ms = 00000001) {
       //   clearInterval(this.intervalId);
       // }
       this.onTick(ms);
-      console.log(ms);
+    
     }, 1000);
   };
   
