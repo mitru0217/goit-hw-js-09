@@ -53,7 +53,9 @@ class Timer {
       let deadLine = Date.parse(refs.input.value);
       const deltaTime = deadLine -currentTime;
       const ms = this.convertMs(deltaTime);
-      if(deadLine === currentTime) {
+      console.log(ms);
+      console.log(deltaTime);
+      if(ms === 00000001) {
         clearInterval(this.intervalId);
       }
       this.onTick(ms);
