@@ -55,6 +55,7 @@ class Timer {
       const ms = this.convertMs(deltaTime);
       if(deltaTime  <= 0) {
         clearInterval(this.intervalId);
+        return;
       }
       this.onTick(ms);
     
