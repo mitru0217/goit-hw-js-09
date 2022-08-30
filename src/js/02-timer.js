@@ -16,14 +16,6 @@ const refs = {
 
 const currentTime = Date.now();
 console.log(currentTime);
-
-console.log(refs.input);
-console.log(refs.button);
-
-
-
-
-
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -67,6 +59,7 @@ class Timer {
 
     this.intervalId = setInterval(() => {
       let deadLine = Date.parse(refs.input.value);
+      console.log(deadLine);
       const deltaTime = deadLine -currentTime;
       console.log(deltaTime);
       const ms = this.convertMs(deltaTime);
