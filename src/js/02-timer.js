@@ -14,6 +14,7 @@ const refs = {
     timer: document.querySelector(".timer"),
 }
 
+refs.button.setAttribute("disabled", true);
 
 
 const options = {
@@ -25,10 +26,11 @@ const options = {
     console.log(selectedDates[0]);
  
     if(selectedDates[0] <= Date.now()) {
-      refs.button.setAttribute("disabled", true)
-      Notify.failure(`❌ Please choose a date in the future`)
+      refs.button.setAttribute("disabled", true);
+      Notify.failure(`❌ Please choose a date in the future`);
       return
     }
+    
     refs.button.removeAttribute("disabled", true)
   },
 };
