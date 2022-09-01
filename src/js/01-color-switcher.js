@@ -5,23 +5,19 @@ const body = document.querySelector("body");
 class colorSwitcher {
   constructor() {
     this.intervalid = null;
-    this.isActive = false;
+   
   };
     start() {
-      if(this.isActive) {
-        startBTn.setAttribute("disabled", true)
-    return;
-      };
-        this.isActive = true,
-      
+    startBTn.disabled = true;
+    stopBtn.disabled = false; 
     this.intervalid = setInterval(() => {
     onChangeBody () 
       }, 1000);
     };
     stop() {
       clearInterval(this.intervalid),
-      this.isActive = false,
-      startBTn.removeAttribute("disabled", true)
+      startBTn.disabled = false;
+      stopBtn.disabled = true;
     };
   };
 
