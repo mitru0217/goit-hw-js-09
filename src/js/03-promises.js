@@ -3,7 +3,6 @@ import 'notiflix/dist/notiflix-3.2.5.min.css';
 
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
-
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
       if (shouldResolve) {
@@ -14,52 +13,30 @@ function createPromise(position, delay) {
     }, delay);
   });
 
-  return promise;
-}
-function doPromises(data) {
-  let { form } = data;
-  const elems = form.elements;
-  const amount = parseInt(elems['amount'].value, 10);
-  const delay = parseInt(elems['delay'].value, 10);
-  const step = parseInt(elems['step'].value, 10);
-  let currDelay = step;
-  form.setAttribute('pending', 'true');
-  currDelay = delay;
-  const unblocking = position => {
-    if (position === amount) {
-      form.removeAttribute('pending');
-    }
-  };
-  for (let i = 0; i < amount; i++) {
-    const promise = createPromise(i + 1, currDelay);
-    promise
-      .then(data => {
-        const { position, delay } = data;
-        Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-        unblocking(position);
-      })
-      .catch(data => {
-        const { position, delay } = data;
-        Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-        unblocking(position);
-      });
-    currDelay += step;
-  }
+  return promise
+    .then(data => {
+      const { position, delay } = data;
+      Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+    })
+    .catch(data => {
+      const { position, delay } = data;
+      Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+    });
 }
 
-const form = document.querySelector('form.form');
+const form = document.querySelector('.form');
 
-form.addEventListener('submit', ev => {
-  ev.preventDefault();
-  if (ev.currentTarget.getAttribute('pending')) {
-    return;
+form.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const amount = e.currentTarget.amount.value;
+  const delay = e.currentTarget.delay.value;
+  const step = e.currentTarget.step.value;
+
+  const firstPromise = createPromise(1, delay);
+  let currentPromise = firstPromise;
+
+  for (let i = 1; i < amount; i++) {
+    currentPromise = currentPromise.finally(() => createPromise(i + 1, step));
   }
-  if (!ev.currentTarget) {
-    return;
-  }
-  const data = {
-    position: 1,
-    form: ev.currentTarget,
-  };
-  doPromises(data);
 });
