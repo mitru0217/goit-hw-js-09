@@ -16,11 +16,12 @@ function createPromise(position, delay) {
   return promise
     .then(data => {
       const { position, delay } = data;
-      Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      Notify.success(`✅ Fulfilled promise ${position} in ${delay} ms`);
+      //  Notify.success(delay);
     })
     .catch(data => {
       const { position, delay } = data;
-      Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+      Notify.failure(`❌ Rejected promise ${position} in ${delay} ms`);
     });
 }
 
@@ -29,14 +30,19 @@ const form = document.querySelector('.form');
 form.addEventListener('submit', e => {
   e.preventDefault();
 
-  const amount = e.currentTarget.amount.value;
-  const delay = e.currentTarget.delay.value;
-  const step = e.currentTarget.step.value;
-
-  const firstPromise = createPromise(1, delay);
-  let currentPromise = firstPromise;
+  const amount = parseInt(e.currentTarget.amount.value);
+  let delay = parseInt(e.currentTarget.delay.value);
+  const step = parseInt(e.currentTarget.step.value);
+  // let curDelay = delay;
+  var currentPromise = {};
+  currentPromise = createPromise(1, delay);
 
   for (let i = 1; i < amount; i++) {
-    currentPromise = currentPromise.finally(() => createPromise(i + 1, step));
+    delay += step;
+    // let tugDelay = String(curDelay);
+    // console.log(tugDelay);
+    // currentPromise = currentPromise.finally(() => createPromise(i + 1, delay));
+    currentPromise = createPromise(i + 1, delay);
+    //  console.log(i);
   }
 });
