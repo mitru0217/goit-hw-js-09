@@ -17,7 +17,6 @@ function createPromise(position, delay) {
     .then(data => {
       const { position, delay } = data;
       Notify.success(`✅ Fulfilled promise ${position} in ${delay} ms`);
-      //  Notify.success(delay);
     })
     .catch(data => {
       const { position, delay } = data;
@@ -33,16 +32,10 @@ form.addEventListener('submit', e => {
   const amount = parseInt(e.currentTarget.amount.value);
   let delay = parseInt(e.currentTarget.delay.value);
   const step = parseInt(e.currentTarget.step.value);
-  // let curDelay = delay;
-  var currentPromise = {};
-  currentPromise = createPromise(1, delay);
+  let currentPromise = createPromise(1, delay);
 
   for (let i = 1; i < amount; i++) {
     delay += step;
-    // let tugDelay = String(curDelay);
-    // console.log(tugDelay);
-    // currentPromise = currentPromise.finally(() => createPromise(i + 1, delay));
     currentPromise = createPromise(i + 1, delay);
-    //  console.log(i);
   }
 });
